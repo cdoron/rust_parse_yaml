@@ -5,12 +5,12 @@ obtain: sample.yaml
 sample.yaml:
 	wget https://raw.githubusercontent.com/fybrik/arrow-flight-module/master/sample/sample.yaml
 
-parse: target/debug/parse 
-target/debug/parse: parse.rs
-	cargo build
+parse: target/wasm32-wasi/debug/parse.wasm
+target/wasm32-wasi/debug/parse.wasm: parse.rs
+	cargo build --target wasm32-wasi
 
 run:
-	./target/debug/parse
+	wasmtime --dir=. target/wasm32-wasi/debug/parse.wasm
 
 clean:
-	rm target/debug/parse
+	rm target/wasm32-wasi/debug/parse.wasm
